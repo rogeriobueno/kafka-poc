@@ -1,0 +1,55 @@
+import com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask
+
+plugins {
+	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'com.commercehub.gradle.plugin.avro' version '0.17.0'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+	mavenCentral()
+	maven {
+		url "http://packages.confluent.io/maven/"
+	}
+}
+group = 'br.com.bueno.events'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.apache.avro:avro:1.9.1'
+
+	implementation("io.confluent:kafka-avro-serializer:5.3.0") {
+		exclude group: "org.slf4j"
+		exclude group: "log4j"
+	}
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+task generateAvro(type: GenerateAvroJavaTask) {
+	source("src/main/resources/avro")
+	outputDir = file("$buildDir/generated-main-avro-java")
+}
+compileJava.source(generateAvro.outputs)
+
+avro {
+	stringType = "String"
+	createSetters = false
+	enableDecimalLogicalType = true
+	fieldVisibility = "private"
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir file("$buildDir/generated-main-avro-java")
+		}
+	}
+}

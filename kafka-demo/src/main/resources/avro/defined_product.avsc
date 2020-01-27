@@ -1,0 +1,60 @@
+{
+  "type": "record",
+  "name": "DefinedProduct",
+  "namespace": "br.com.bueno.logistics.events",
+  "doc": "Evento de produto definido",
+  "subject": "streaming.logistics.product.defined-value",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": [
+        "null",
+        "long"
+      ],
+      "doc": "ID da ordem",
+      "default": null
+    },
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "Product",
+          "fields": [
+            {
+              "name": "productId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "Produto definido",
+              "default": null
+            },
+            {
+              "name": "itemId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "ID do item da ordem",
+              "default": null
+            },
+            {
+              "name": "networkOperator",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "Nome da operadora",
+              "default": null
+            }
+          ]
+        },
+        "java-class": "java.util.List"
+      },
+      "doc": "Produtos definidos",
+      "default": []
+    }
+  ]
+}

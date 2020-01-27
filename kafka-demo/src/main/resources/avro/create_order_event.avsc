@@ -1,0 +1,139 @@
+{
+  "type": "record",
+  "name": "Order",
+  "namespace": "br.com.bueno.logistics.events",
+  "doc": "Evento da ordem criada no sistema da logistica",
+  "fields": [
+    {
+      "name": "order_id",
+      "type": [
+        "null",
+        "long"
+      ],
+      "default": null,
+      "doc": "ID da Ordem"
+    },
+    {
+      "name": "order_type",
+      "type": [
+        "null",
+        {
+          "type": "string",
+          "avro.java.string": "String"
+        }
+      ],
+      "default": null,
+      "doc": "Tipo da ordem"
+    },
+    {
+      "name": "company",
+      "type": [
+        "null",
+        {
+          "type": "string",
+          "avro.java.string": "String"
+        }
+      ],
+      "default": null,
+      "doc": "Codigo da empresa da ordem"
+    },
+    {
+      "name": "address",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "Address",
+          "fields": [
+            {
+              "name": "city",
+              "type": [
+                "null",
+                {
+                  "type": "string",
+                  "avro.java.string": "String"
+                }
+              ],
+              "default": null,
+              "doc": "Cidade do endereco"
+            },
+            {
+              "name": "federation_unit",
+              "type": [
+                "null",
+                {
+                  "type": "string",
+                  "avro.java.string": "String"
+                }
+              ],
+              "default": null,
+              "doc": "Estado do endereco"
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "OrderItem",
+          "type": "record",
+          "fields": [
+            {
+              "name": "item_id",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "ID do Item da Ordem"
+            },
+            {
+              "name": "idt_mobireader",
+              "type": [
+                "null",
+                "int"
+              ],
+              "default": null,
+              "doc": "ID do produto"
+            },
+            {
+              "name": "code_sap",
+              "type": [
+                "null",
+                {
+                  "type": "string",
+                  "avro.java.string": "String"
+                }
+              ],
+              "default": null,
+              "doc": "Codigo do material"
+            },
+            {
+              "name": "quantity",
+              "type": "int",
+              "doc": "Quantidade do produto no Item",
+              "default": 1
+            },
+            {
+              "name": "network_operator",
+              "type": [
+                "null",
+                {
+                  "type": "string",
+                  "avro.java.string": "String"
+                }
+              ],
+              "default": null,
+              "doc": "Nome da operadora"
+            }
+          ]
+        }
+      },
+      "default": []
+    }
+  ]
+}

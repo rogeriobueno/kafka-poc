@@ -1,0 +1,42 @@
+server:
+  port: 9090
+spring:
+  profiles:
+    active: local
+
+  application:
+    name: kafka-demo
+
+  kafka:
+    admin:
+      client-id: logistic
+    bootstrap-servers: http://127.0.0.1:9092
+    properties:
+      schema:
+        registry:
+          url: http://127.0.0.1:8081
+      specific:
+        avro:
+          reader: true
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      acks: 1
+      retries: 10
+      properties:
+        enable_idempotence_config: true
+        auto_offset_reset_config: earliest
+        max_block_ms_config: 5000
+        max_in_flight_requests_per_connection: 1
+    consumer:
+      group-id: logistic
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      enable-auto-commit: true
+
+kafka:
+  topic:
+    order_created: streaming.logistics.order.created
+    product_defined: streaming.logistics.product.defined
+    order_product_updated: streaming.logistics.order.product.updated
